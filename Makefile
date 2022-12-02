@@ -7,13 +7,15 @@ sta=lib$(out).a
 libpath= -I ./include/
 tempath=-L./objects/label/
 rpath=-Wl, -rpath,/objects/label/
-flag= -W -Wall -std=c11 -g
+flag= -W -Wall -std=c11 -g -O3
 link= -llapin -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -lstdc++ -lm -ldl -lpthread -lopencv_imgproc -lopencv_objdetect -lopencv_video -lopencv_core -lavcall -lusb
 user=$(shell printenv USER)
 
 all: cc
 
-cc: $(obj)
+cc: $(out)
+
+$(out): $(obj)
 	gcc $(obj) -o $(out) $(libpath) $(flag) $(link)
 
 instal: dy
@@ -54,6 +56,7 @@ cl:
 	@rm -f src/*~
 	@rm -f include/*~
 	@rm -f *~
+	@rm -f vgcore*
 	@rm -f $(obj)
 	@rm -f $(lib)
 	@rm -f $(sta)
