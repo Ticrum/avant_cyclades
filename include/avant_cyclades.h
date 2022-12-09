@@ -113,4 +113,26 @@ size_t      efread_cyclade(t_cyclade    *c,
                            void         **buf,
                            size_t       *buflen);
 
+void        read_after_R(t_cyclade      *c);
+
+int         unpack_write_L(t_cyclade    *c);
+
+void        make_packet_write_L(t_cyclade   *c);
+
+void        read_after_L(t_cyclade          *c);
+
+void        make_packet_write_R(t_cyclade   *c);
+
+int         unpack_write_R(t_cyclade        *c);
+
+int         efask_cyclade_message(t_cyclade *c,
+                                  uint32_t  host);
+
+int         efask_cyclade_next_message(t_cyclade    *c,
+                                       uint32_t     host);
+
+int         efask_cyclade_talkee(t_cyclade  *c,
+                                 uint32_t   *talkees,
+                                 size_t     talkeeslen);
+
 #endif //   AVANT_CYCLADES

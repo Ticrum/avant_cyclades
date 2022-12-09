@@ -1,22 +1,22 @@
-out=cyclades
+out=avant_cyclades
 src=$(shell find src/ -name "*.c")
 header=$(shell find include -name "*.h")
 obj=$(src:.c=.o)
 lib=lib$(out).so
 sta=lib$(out).a
-libpath= -I ./include/
+libpath= -I ../include/
 tempath=-L./objects/label/
 rpath=-Wl, -rpath,/objects/label/
 flag= -W -Wall -std=c11 -g -O3
 link= -llapin -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -lstdc++ -lm -ldl -lpthread -lopencv_imgproc -lopencv_objdetect -lopencv_video -lopencv_core -lavcall -lusb
 user=$(shell printenv USER)
 
-all: sta
+all: cc
 
 cc: $(out)
 
 $(out): $(obj)
-	gcc $(obj) -o $(out) $(libpath) $(flag) $(link)
+	gcc $(obj) ../libcyclades.a -o $(out) $(libpath) $(flag) $(link)
 
 instal: dy
 	mkdir -p ~/.froot/lib ~/.froot/include
@@ -40,9 +40,7 @@ expdy:
 dy: $(obj)
 	gcc -shared -o $(lib) $(obj)
 
-sta: $(sta)
-
-$(sta): $(obj)
+sta: $(obj)
 	ar cr $(sta) $(obj)
 
 cldy: cl

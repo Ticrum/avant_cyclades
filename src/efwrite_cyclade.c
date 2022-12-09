@@ -14,7 +14,7 @@ size_t efwrite_cyclade(t_cyclade    *c,
     newdata->destbuf = target;
     newdata->buf = data;
     newdata->buflen = datalen;
-    newdata->isleft = false;
+    newdata->isleft = true;
     insert_data(&c->dataout, c->dataout_len, newdata);
     printf("%d\n", c->dataout[0]->srcbuf);
     c->dataout_len = c->dataout_len + 1;
