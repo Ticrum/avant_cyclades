@@ -34,7 +34,7 @@ t_cyclade *efopen_cyclade(void)
     card->write_L = false;
     card->reg = NULL;
     card->reg_len = 0;
-    card->name = rand();
+    card->name = rand() % 1000;
     return (card);
 }
 

@@ -47,23 +47,24 @@ int main(void)
     double finish;
     double curr;
     double currc;
-//    t_bunny_vm110n *carte;
     t_cyclade *c;
     bool state;
     bool state2;
     char tab[512];
+    char tab2[512];
     int lu;
 
     uint32_t src;
     size_t len;
     void *buf;
+    char id[40];
 
     srand(time(NULL));
     src = 0;
     len = 0;
     buf = NULL;
     c = efopen_cyclade();
-    c->name = 3;
+    //c->name = 3;
     if (c->carte != NULL)
         write(1,"yes",3);
     else
@@ -85,28 +86,29 @@ int main(void)
     {
         tab[0] = '\0';
         lu = read(0, tab, 512);
-        //write(1,"b",1);
+        tab[lu] = '\0';
         bunny_vm110n_read(c->carte);
         if (c->carte->digital_inputs[4] != state)
         {
-            //printf("%d\n", compt2);
             compt2 = compt2 + 1;
             state = !state;
         }
         if (tab[0] == 'w' && tab[1] == ' ')
             {
                 printf("lengo = %d\n", lu - 2);
-                efwrite_cyclade(c, 3, &tab[2], lu - 2);//"azertyeuhfziufhihfiuzefzieuibifeiubfizebf",
+                sscanf(tab, "w %s %s", id, tab2);
+                printf("!!! %s !!!", id);
+                efwrite_cyclade(c, atoi(id), &tab2, strlen(tab2));//"azertyeuhfziufhihfiuzefzieuibifeiubfizebf",
                                                        //41);
             }
-            if (tab[0] == 'r')
+        if (tab[0] == 'r')
             {
-                //write(1,(char *)c->datain[0]->buf, c->datain[0]->buflen);
-                //printf("\nout : src %d dest %d len %ld\n", c->datain[0]->srcbuf, c->datain[0]->destbuf, c->datain[0]->buflen);
                 efread_cyclade(c, &src, &buf, &len);
                 printf("\nout : src %d len %ld\n", src, len);
                 write(1,(char *)buf, len);
             }
+        if (tab[0] == 'n')
+            printf("name = %d\n", c->name);
         if (compt2 % 2 == 0)
         {
             state2 = !state2;
@@ -115,28 +117,10 @@ int main(void)
             finish = clock();
             currc = currc + CLOCKS_PER_SEC;
             curr = curr + 0.010 / ((finish - start) / (currc / compt));//CLOCKS_PER_SEC);
-            //printf("%f %d %f\n", curr / compt, c->carte->digital_inputs[4], (currc / compt));//CLOCKS_PER_SEC);
             start = finish;
-            //c->carte->digital_outputs[0] = state2;
-
             efcyclade(c);
-/*
-            if (c->read_R == 1)
-            {
-                if (c->packet_R == NULL)
-                {
-                    if ((c->packet_R = malloc(sizeof(t_packet *))) == NULL)
-                        return (-1);
-                    if ((c->packet_R[0] = malloc(sizeof(t_packet))) == NULL)
-                        return (-1);
-                    read_R(c->packet_R[0], &c->compt_read_R);
-                }
-            }
-*/
-            //cpy_inputs(c->carte);
             bunny_vm110n_write(c->carte);
         }
-        //carte_reset(carte);
     }
     carte_reset(c->carte);
     bunny_usleep(0.2e6);
