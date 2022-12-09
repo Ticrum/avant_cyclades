@@ -13,7 +13,7 @@ void read_after_L(t_cyclade *c)
         //read_bit(c->carte, c->packet_R[0], &c->compt_read_R, false);
     }
     write(1,"r",1);
-    read_bit(c->carte, c->packet_L[c->packet_L_len], &c->compt_read_L, false);
+    read_bit(c->carte, c->packet_L[c->packet_L_len], &c->compt_read_L, true);
     if (c->compt_read_L >= (int)sizeof(t_packet) * 8)
     {
         printf("/pktread: src = %d dest = %d pktnbr = %d mpkt = %d len = %d / parcour = %d/\n", c->packet_L[c->packet_L_len]->src, c->packet_L[c->packet_L_len]->dest, c->packet_L[c->packet_L_len]->packet_nbr, c->packet_L[c->packet_L_len]->max_packet, c->packet_L[c->packet_L_len]->len, c->compt_read_L);
@@ -33,7 +33,7 @@ void read_after_L(t_cyclade *c)
         if (c->packet_L_len == c->packet_L[0]->max_packet)
         {
             write(1,"finish",6);
-            class_data(c, make_data(c->packet_L, c->packet_L_len, false));
+            class_data(c, make_data(c->packet_L, c->packet_L_len, true));
             free_packet(c->packet_L, c->packet_L_len);
             c->packet_L_len = 0;
             c->packet_L = NULL;
